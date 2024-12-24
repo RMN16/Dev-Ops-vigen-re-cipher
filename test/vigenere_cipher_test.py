@@ -1,5 +1,6 @@
 import unittest
-from src.vigenere_cipher import encrypt, decrypt, prepare_text, prepare_key, generate_vigenere_table
+from vigenere_cipher import encrypt, decrypt, prepare_text, prepare_key, generate_vigenere_table
+
 
 class TestVigenereCipher(unittest.TestCase):
     def setUp(self):
@@ -57,7 +58,7 @@ class TestVigenereCipher(unittest.TestCase):
     def test_key_preparation(self):
         """Test key preparation function"""
         test_cases = [
-            ("KEY", "HELLO", "KEYKK"),
+            ("KEY", "HELLO", "KEYKE"),
             ("LEMON", "ATTACKATDAWN", "LEMONLEMONLE"),
             ("A", "TEST", "AAAA"),
             ("LONG", "HI", "LO")
@@ -119,5 +120,6 @@ class TestVigenereCipher(unittest.TestCase):
         self.assertEqual(upper_result, lower_result)
         self.assertEqual(upper_result, mixed_result)
 
+
 if __name__ == '__main__':
-    unittest.main(verbosity=2) 
+    unittest.main(verbosity=2)
