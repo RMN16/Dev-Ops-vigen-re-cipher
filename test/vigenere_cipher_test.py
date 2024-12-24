@@ -19,7 +19,7 @@ class TestVigenereCipher(unittest.TestCase):
             {
                 'plaintext': 'PYTHONPROGRAMMING',
                 'key': 'CODE',
-                'expected_cipher': 'RMLVSDEPVKFOCAKR'
+                'expected_cipher': 'RMWLQBSVQUUEOALRI'
             }
         ]
 
