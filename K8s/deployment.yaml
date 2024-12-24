@@ -6,15 +6,15 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: Dev-Ops-vigenere-cipher
+      app: dev-ops-vigenere-cipher
   template:
     metadata:
       labels:
-        app: Dev-Ops-vigenere-cipher
+        app: dev-ops-vigenere-cipher
 
     spec:
       containers:
       - name: vigenere-cipher
-        image: RMN16/Dev-Ops-vigenere-cipher:latest
+        image: RMN16/dev-ops-vigenere-cipher:latest
         ports:
         - containerPort: 5000

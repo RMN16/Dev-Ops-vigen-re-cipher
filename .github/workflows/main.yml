@@ -118,7 +118,7 @@ jobs:
         - name: Run Trivy vulnerability scanner
           uses: aquasecurity/trivy-action@master
           with:
-            image-ref: 'RMN16/Dev-Ops-vigenere-cipher:latest'
+            image-ref: 'RMN16/dev-ops-vigenere-cipher:latest'
             format: 'table'
             exit-code: '1'
             ignore-unfixed: true
@@ -141,7 +141,7 @@ jobs:
 
     - name: Pull Docker Image from Docker Hub
       run: |
-        docker pull ${{ secrets.DOCKER_USERNAME }}/Dev-Ops-vigenere-cipher:latest
+        docker pull ${{ secrets.DOCKER_USERNAME }}/dev-ops-vigenere-cipher:latest
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Deploy to minikube

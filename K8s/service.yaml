@@ -4,7 +4,7 @@ metadata:
   name: vigenere-cipher-service
 spec:
   selector:
-    app: Dev-Ops-vigenere-cipher
+    app: dev-ops-vigenere-cipher
   type: NodePort
   ports:
     - protocol: TCP
