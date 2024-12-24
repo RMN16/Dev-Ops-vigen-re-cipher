@@ -102,11 +102,11 @@ jobs:
         run: docker build -t "my-app" .
 
       - name: Tag an image
-        run: docker tag my-app RMN16/dev-ops-vigenere-cipher
+        run: docker tag my-app rmn16/dev-ops-vigenere-cipher
 
       - name: Push Docker image
         run: |
-          docker push RMN16/dev-ops-vigenere-cipher
+          docker push rmn16/dev-ops-vigenere-cipher
 
   Trivy:
     runs-on: ubuntu-latest
