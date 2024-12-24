@@ -1,5 +1,5 @@
 import unittest
-from vigenere_cipher import encrypt, decrypt, prepare_text, prepare_key, generate_vigenere_table
+from src.vigenere_cipher import encrypt, decrypt, prepare_text, prepare_key, generate_vigenere_table
 
 
 class TestVigenereCipher(unittest.TestCase):
