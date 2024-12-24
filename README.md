@@ -120,3 +120,6 @@ At kubectl get services - on the External-IP field to write 1/1
 minikube service image-name
 
 The project will run in your cluster and open it in your default Web Browser.
+
+![image](https://github.com/user-attachments/assets/53a130f4-cbbb-493f-869b-f5e6a68c2ab3)
+
