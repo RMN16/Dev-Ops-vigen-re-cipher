@@ -10,14 +10,17 @@ def generate_vigenere_table():
         table.append(row)
     return table
 
+
 def prepare_text(text):
     """Remove non-alphabetic characters and convert to uppercase"""
     return ''.join(char.upper() for char in text if char.isalpha())
+
 
 def prepare_key(key, message_length):
     """Repeat the key to match the message length"""
     key = prepare_text(key)
     return (key * (message_length // len(key) + 1))[:message_length]
+
 
 def encrypt(plaintext, key):
     """Encrypt the plaintext using Vigenère cipher"""
@@ -35,6 +38,7 @@ def encrypt(plaintext, key):
     
     return ciphertext
 
+
 def decrypt(ciphertext, key):
     """Decrypt the ciphertext using Vigenère cipher"""
     table = generate_vigenere_table()
@@ -51,6 +55,7 @@ def decrypt(ciphertext, key):
         plaintext += chr(col + ord('A'))
     
     return plaintext
+
 
 # Example usage
 if __name__ == "__main__":
