@@ -28,14 +28,14 @@ def encrypt(plaintext, key):
     plaintext = prepare_text(plaintext)
     key = prepare_key(key, len(plaintext))
     ciphertext = ''
-    
+
     for p, k in zip(plaintext, key):
         # Find row and column indices in the Vigenère table
         row = ord(k) - ord('A')
         col = ord(p) - ord('A')
         # Get encrypted character from the table
         ciphertext += table[row][col]
-    
+
     return ciphertext
 
 
@@ -45,15 +45,15 @@ def decrypt(ciphertext, key):
     ciphertext = prepare_text(ciphertext)
     key = prepare_key(key, len(ciphertext))
     plaintext = ''
-    
+
     for c, k in zip(ciphertext, key):
         # Find the row in the table corresponding to the key character
         row = ord(k) - ord('A')
         # Find the position of the ciphertext character in that row
         col = table[row].index(c)
         # Convert column index back to plaintext character
-        plaintext += chr(col + ord('A'))
-    
+        plaintext += chr(col + ord('A'))    
+
     return plaintext
 
 
@@ -62,12 +62,12 @@ if __name__ == "__main__":
     # Test the implementation
     message = "Hello World!"
     key = "SECRET"
-    
+
     print(f"Original message: {message}")
     print(f"Key: {key}")
-    
+
     encrypted = encrypt(message, key)
     print(f"Encrypted text: {encrypted}")
-    
+
     decrypted = decrypt(encrypted, key)
     print(f"Decrypted text: {decrypted}")
