@@ -52,7 +52,7 @@ def decrypt(ciphertext, key):
         # Find the position of the ciphertext character in that row
         col = table[row].index(c)
         # Convert column index back to plaintext character
-        plaintext += chr(col + ord('A'))    
+        plaintext += chr(col + ord('A'))
 
     return plaintext
 

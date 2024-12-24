@@ -1,9 +1,11 @@
-# Dev-Ops-vigenere-cipher
-A Dev Ops project made in colaboration with: https://github.com/aRowOf5
+# Dev-Ops-vigenere-cipher 
+
+A Dev Ops project made in colaboration with: [Stefan Minkov](https://github.com/aRowOf5)
 
 ## Introduction
 
-DevOps-vigenere-cipher project is a Flask-based web application that encrypts and decrypts files using the Vigenère cipher. The project utilizes Flask for the backend, Docker for
+DevOps-vigenere-cipher project is a Flask-based web application that encrypts and decrypts files using the Vigenère cipher. 
+The project utilizes Flask for the backend, Docker for
 containerization, GitHub Actions for Continuous Integration/Continuous
 Deployment (CI/CD) and Minikube (Local Kubernetes enviroment) to deploy.
 
