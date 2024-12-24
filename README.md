@@ -1,4 +1,4 @@
-# Dev-Ops-vigen-re-cipher
+# Dev-Ops-vigenere-cipher
 A Dev Ops project made in colaboration with: https://github.com/aRowOf5
 
 ## Introduction
