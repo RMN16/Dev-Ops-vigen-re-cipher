@@ -1,0 +1,153 @@
+name: All in one
+
+on: push
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+  CheckCodeStyle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install flake8
+        run: python3 -m pip install flake8
+        
+      - name: Check style
+        run: flake8 src
+
+  EditorconfigCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install editorconfig-checker
+        run: pip install editorconfig-checker
+        
+      - name: Checking
+        run: ec
+
+  MarkdownfilesCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Run markdownlint test
+        run: markdownlint .
+
+  UnitTests:
+    runs-on: ubuntu-latest
+    needs: ["CheckCodeStyle", "EditorconfigCheck", "MarkdownfilesCheck"]
+    container: python:3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: pip install -r src/requirements.txt
+
+      - name: Run unit tests
+        run: python3 -m unittest test/cal-test.py
+
+  SonarCloudTest:
+    runs-on: ubuntu-latest
+    needs: ["UnitTests", "CheckCodeStyle", "EditorconfigCheck", "MarkdownfilesCheck"]
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+
+  SnykTest:
+    runs-on: ubuntu-latest
+    needs: ["UnitTests", "CheckCodeStyle", "EditorconfigCheck", "MarkdownfilesCheck"]
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Run Snyk to check for vulnerabilities
+        working-directory: ${{github.workspace}}/src
+        run: |
+          pip install -r requirements.txt
+          npm install -g snyk
+          snyk auth ${{secrets.SNYK_TOKEN}}
+          snyk test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: ["SnykTest", "SonarCloudTest"]
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build an image
+        run: docker build -t "my-app" .
+
+      - name: Tag an image
+        run: docker tag my-app RMN16/Dev-Ops-vigenere-cipher
+
+      - name: Push Docker image
+        run: |
+          docker push RMN16/Dev-Ops-vigenere-cipher
+
+  Trivy:
+    runs-on: ubuntu-latest
+    needs: ["build"]
+    steps:
+        - name: Checkout the code
+          uses: actions/checkout@v3
+
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@master
+          with:
+            image-ref: 'RMN16/Dev-Ops-vigenere-cipher:latest'
+            format: 'table'
+            exit-code: '1'
+            ignore-unfixed: true
+            vuln-type: 'os,library'
+            severity: 'CRITICAL,HIGH'
+  
+  Minikube:
+    runs-on: ubuntu-latest
+    needs: ["Trivy"]
+    name: Image to minikube
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+
+    - name: Try the cluster !
+      run: kubectl get pods -A
+
+    - name: Pull Docker Image from Docker Hub
+      run: |
+        docker pull ${{ secrets.DOCKER_USERNAME }}/Dev-Ops-vigenere-cipher:latest
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Deploy to minikube
+      run: |
+        kubectl apply -f K8s/
+        
+    - name: Stop Minikube
+      run: | 
+        minikube stop

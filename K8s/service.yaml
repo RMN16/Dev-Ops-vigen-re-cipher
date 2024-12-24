@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vigenere-cipher-service
+spec:
+  selector:
+    app: Dev-Ops-vigenere-cipher
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

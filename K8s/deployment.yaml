@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vigenere-cipher-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: Dev-Ops-vigenere-cipher
+  template:
+    metadata:
+      labels:
+        app: Dev-Ops-vigenere-cipher
+
+    spec:
+      containers:
+      - name: vigenere-cipher
+        image: RMN16/Dev-Ops-vigenere-cipher:latest
+        ports:
+        - containerPort: 5000
