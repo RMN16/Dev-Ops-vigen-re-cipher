@@ -54,7 +54,7 @@ jobs:
         run: pip install -r src/requirements.txt
 
       - name: Run unit tests
-        run: python3 -m unittest test/cal-test.py
+        run: python3 -m unittest test/vigenere_cipher_test.py
 
   SonarCloudTest:
     runs-on: ubuntu-latest
